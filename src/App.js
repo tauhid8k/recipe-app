@@ -1,5 +1,11 @@
+import Pages from "./pages/Pages";
+
 function App() {
-  return <div>Hello Recipe App</div>;
+  return (
+    <>
+      <Pages />
+    </>
+  );
 }
 
 export default App;
