@@ -15,6 +15,7 @@ const Navbar = () => {
 const Nav = styled.div`
   padding: 1rem;
   border-bottom: 1px solid #ddd;
+  margin-bottom: 1.5rem;
   .logo {
     text-decoration: none;
     color: black;
