@@ -1,10 +1,10 @@
-import { useState } from "react";
-import styled from "styled-components";
-import { FaSearch } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import styled from 'styled-components';
+import { FaSearch } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Search = () => {
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const navigate = useNavigate();
 
   const submitHandler = (e) => {
@@ -17,7 +17,7 @@ const Search = () => {
       <div>
         <FaSearch />
         <input
-          type="text"
+          type='text'
           value={input}
           onChange={(e) => setInput(e.target.value)}
         />
@@ -32,6 +32,9 @@ const FormStyle = styled.form`
   div {
     position: relative;
     width: 50%;
+    @media (max-width: 500px) {
+      width: 80%;
+    }
     input {
       width: 100%;
       border: 0;

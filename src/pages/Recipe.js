@@ -1,21 +1,20 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 const Recipe = () => {
   const [detail, setDetail] = useState({});
-  const [activeTab, setActiveTab] = useState("instructions");
+  const [activeTab, setActiveTab] = useState('instructions');
   const params = useParams();
 
-  const getRecipe = async () => {
-    const data = await fetch(
-      `https://api.spoonacular.com/recipes/${params.id}/information?apiKey=${process.env.REACT_APP_API_KEY}`
-    );
-    const detail = await data.json();
-    setDetail(detail);
-  };
-
   useEffect(() => {
+    const getRecipe = async () => {
+      const data = await fetch(
+        `https://api.spoonacular.com/recipes/${params.id}/information?apiKey=${process.env.REACT_APP_API_KEY}`
+      );
+      const detail = await data.json();
+      setDetail(detail);
+    };
     getRecipe();
   }, []);
 
@@ -23,27 +22,27 @@ const Recipe = () => {
     <DetailWrapper>
       <div>
         <h2>{detail.title}</h2>
-        <img src={detail.image} alt="" />
+        <img src={detail.image} alt='' />
       </div>
       <Info>
         <Button
-          className={`${activeTab === "instructions" ? "active" : ""}`}
-          onClick={() => setActiveTab("instructions")}
+          className={`${activeTab === 'instructions' ? 'active' : ''}`}
+          onClick={() => setActiveTab('instructions')}
         >
           Instructions
         </Button>
         <Button
-          className={`${activeTab === "ingredients" ? "active" : ""}`}
-          onClick={() => setActiveTab("ingredients")}
+          className={`${activeTab === 'ingredients' ? 'active' : ''}`}
+          onClick={() => setActiveTab('ingredients')}
         >
           Ingredients
         </Button>
-        {activeTab === "instructions" && (
+        {activeTab === 'instructions' && (
           <Text>
             <h3 dangerouslySetInnerHTML={{ __html: detail.summary }}></h3>
           </Text>
         )}
-        {activeTab === "ingredients" && (
+        {activeTab === 'ingredients' && (
           <ul>
             {detail.extendedIngredients.map((ingredient) => (
               <li key={ingredient.id}>{ingredient.original}</li>

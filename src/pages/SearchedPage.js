@@ -1,18 +1,21 @@
-import { useEffect } from "react";
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import styled from "styled-components";
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 
 const SearchedPage = () => {
+  const [loading, setLoading] = useState(false);
   const [searchedRecipe, setSearchedRecipe] = useState([]);
   const params = useParams();
 
   const getSearched = async (name) => {
+    setLoading(true);
     const data = await fetch(
       `https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&query=${name}`
     );
     const recipes = await data.json();
     setSearchedRecipe(recipes.results);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -21,11 +24,12 @@ const SearchedPage = () => {
 
   return (
     <Grid>
+      {loading && <h3 style={{ textAlign: 'center' }}>Loading...</h3>}
       {searchedRecipe &&
         searchedRecipe.map((recipe) => (
           <Card key={recipe.id}>
             <Link to={`/recipe/${recipe.id}`}>
-              <img src={recipe.image} alt="" />
+              <img src={recipe.image} alt='' />
               <h4>{recipe.title}</h4>
             </Link>
           </Card>

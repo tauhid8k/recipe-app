@@ -1,22 +1,20 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Splide, SplideSlide } from "@splidejs/react-splide";
-import "@splidejs/splide/dist/css/splide.min.css";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const Popular = () => {
   const [popular, setPopular] = useState([]);
 
   const getPopular = async () => {
-    const checkPopular = localStorage.getItem("popular");
+    const checkPopular = localStorage.getItem('popular');
     if (checkPopular) {
       setPopular(JSON.parse(checkPopular));
     } else {
       const api = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=9`
+        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=8`
       );
       const data = await api.json();
-      localStorage.setItem("popular", JSON.stringify(data.recipes));
+      localStorage.setItem('popular', JSON.stringify(data.recipes));
       setPopular(data.recipes);
     }
   };
@@ -29,27 +27,17 @@ const Popular = () => {
     <>
       <Wrapper>
         <h3>Popular Pics</h3>
-        <Splide
-          options={{
-            perPage: 4,
-            arrows: false,
-            pagination: false,
-            gap: "2rem",
-            drag: "free",
-          }}
-        >
+        <Grid>
           {popular.map((recipe) => (
-            <SplideSlide key={recipe.id}>
-              <Card>
-                <Link to={`/recipe/${recipe.id}`}>
-                  <p>{recipe.title}</p>
-                  <img src={recipe.image} alt={recipe.title} />
-                  <Gradient />
-                </Link>
-              </Card>
-            </SplideSlide>
+            <Card key={recipe.id}>
+              <Link to={`/recipe/${recipe.id}`}>
+                <p>{recipe.title}</p>
+                <img src={recipe.image} alt={recipe.title} />
+                <Gradient />
+              </Link>
+            </Card>
           ))}
-        </Splide>
+        </Grid>
       </Wrapper>
     </>
   );
@@ -64,11 +52,27 @@ const Wrapper = styled.div`
   }
 `;
 
+const Grid = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
 const Card = styled.div`
+  flex: 1 1 20%;
   min-height: 25rem;
   border-radius: 10px;
   overflow: hidden;
   position: relative;
+  @media (max-width: 1024px) {
+    flex: 1 1 30%;
+  }
+  @media (max-width: 768px) {
+    flex: 1 1 45%;
+  }
+  @media (max-width: 500px) {
+    flex: 1 1 100%;
+  }
   img {
     border-radius: 10px;
     position: absolute;
@@ -78,9 +82,10 @@ const Card = styled.div`
     object-fit: cover;
   }
   p {
+    padding: 0 0.2rem;
     position: absolute;
     left: 50%;
-    bottom: 0%;
+    bottom: -5%;
     z-index: 10;
     transform: translate(-50%, 0%);
     color: white;
