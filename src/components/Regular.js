@@ -11,7 +11,7 @@ const Regular = () => {
       setRegular(JSON.parse(checkRegular));
     } else {
       const api = await fetch(
-        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=8&tags=vegetarian`
+        `https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=7&tags=vegetarian`
       );
       const data = await api.json();
       localStorage.setItem('regular', JSON.stringify(data.recipes));
